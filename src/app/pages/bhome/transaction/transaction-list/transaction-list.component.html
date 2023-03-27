@@ -1,0 +1,22 @@
+<div class="transaction-list-container">
+    <div class="filter-list">
+        <app-filter class="border w-full h-4" (inputChange)="filterText($event)"></app-filter>
+    </div>
+    <div class="transaction-list">
+        <div class="no-result" *ngIf="!(transactionData$ | async | filter:filterTextVal)?.length">No Transaction</div>
+        <ng-container *ngFor="let data of transactionData$ | async | filter:filterTextVal | sortBy">
+
+            <app-transaction-item class="border-b my-1 p-2 flex align-center w-full">
+                <span slot="transactionColour" [style.background-color]="data?.categoryCode"
+                    class="h-16 w-2 flex"></span>
+                <span slot="transactionDate" class="w-20">{{data?.dates?.valueDate | date: 'MMM d'}}</span>
+                <div slot="transactionMerchantName">{{data?.merchant?.name}}</div>
+                <span slot="transactionType">{{data?.transaction?.type}}</span>
+                <div slot="transactionAmount" class="amount"
+                    [ngClass]="data?.transaction?.amountCurrency?.amount?.toString()?.includes('-') ? 'red' : 'green' ">
+                    {{data?.transaction?.amountCurrency?.amount | currency:
+                    data?.transaction?.amountCurrency?.currencyCode}}</div>
+            </app-transaction-item>
+        </ng-container>
+    </div>
+</div>

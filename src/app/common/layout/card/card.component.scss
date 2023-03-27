@@ -1,0 +1,9 @@
+@import "../../bb-ui/styles/main.scss";
+::ng-deep {
+    .head {
+        background-color: $primary-green;
+    }
+    .card-content {
+        background-color: $primary-white;
+    }
+}

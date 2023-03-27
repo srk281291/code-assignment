@@ -1,0 +1,28 @@
+::ng-deep {
+    .merchant-details {
+        display: flex;
+        flex-wrap: wrap;
+        width: inherit;
+    }
+
+
+    .merchant-details span {
+        width: 100%;
+    }
+
+    app-transaction-item {
+        align-items: center;
+        justify-content: flex-start;
+        column-gap: 10px;
+        width: 100%;
+    }
+  
+    .amount {
+        &.green {
+            color: green;
+        }
+        &.red {
+            color: red;
+        }
+    }
+}
