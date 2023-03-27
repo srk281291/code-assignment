@@ -12,7 +12,7 @@
                 <span slot="transactionDate" class="w-20">{{data?.dates?.valueDate | date: 'MMM d'}}</span>
                 <div slot="transactionMerchantName">{{data?.merchant?.name}}</div>
                 <span slot="transactionType">{{data?.transaction?.type}}</span>
-                <div slot="transactionAmount" class="amount"
+                <div slot="transactionAmount" class="amount whitespace-nowrap"
                     [ngClass]="data?.transaction?.amountCurrency?.amount?.toString()?.includes('-') ? 'red' : 'green' ">
                     {{data?.transaction?.amountCurrency?.amount | currency:
                     data?.transaction?.amountCurrency?.currencyCode}}</div>
