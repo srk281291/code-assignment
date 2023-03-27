@@ -77,9 +77,9 @@ export class TranasctionFormComponent implements OnInit {
             creditDebitIndicator: "DBIT",
             amountCurrency: {
               currencyCode: "EUR",
-              amount: `-${this.transactionForm.controls[
+              amount: `${this.transactionForm.controls[
                 "amount"
-              ].value.toString()}`,
+              ].value}`,
             },
           },
         },

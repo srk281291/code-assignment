@@ -13,8 +13,9 @@
                 <div slot="transactionMerchantName">{{data?.merchant?.name}}</div>
                 <span slot="transactionType">{{data?.transaction?.type}}</span>
                 <div slot="transactionAmount" class="amount whitespace-nowrap"
-                    [ngClass]="data?.transaction?.amountCurrency?.amount?.toString()?.includes('-') ? 'red' : 'green' ">
-                    {{data?.transaction?.amountCurrency?.amount | currency:
+                    [ngClass]="data?.transaction?.creditDebitIndicator == 'DBIT' ? 'red' : 'green' ">
+                    {{data?.transaction?.creditDebitIndicator == 'DBIT' ? '-':
+                    ''}}{{data?.transaction?.amountCurrency?.amount | currency:
                     data?.transaction?.amountCurrency?.currencyCode}}</div>
             </app-transaction-item>
         </ng-container>
