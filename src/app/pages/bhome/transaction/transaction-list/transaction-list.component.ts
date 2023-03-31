@@ -1,18 +1,21 @@
-import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { transactionSelector } from '../../store/transaction.selector';
+import { Component } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { transactionSelector } from "../../store/transaction.selector";
 
 @Component({
-  selector: 'app-transaction-list',
-  templateUrl: './transaction-list.component.html',
-  styleUrls: ['./transaction-list.component.scss'],
+  selector: "app-transaction-list",
+  templateUrl: "./transaction-list.component.html",
+  styleUrls: ["./transaction-list.component.scss"],
 })
-export class TransactionListComponent  {
+export class TransactionListComponent {
   transactionData$ = this.store$.select(transactionSelector);
   filterTextVal: string;
   constructor(private store$: Store) {}
- 
-  filterText(event: any) {
+
+  filterText(event: string): void {
     this.filterTextVal = event;
+  }
+  trackBy(item): string {
+    return item.id;
   }
 }

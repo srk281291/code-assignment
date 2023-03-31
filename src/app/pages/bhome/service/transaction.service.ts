@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { map, Observable } from "rxjs";
+import { TransactionDetails } from "../model/transaction.model";
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TransactionService {
   constructor(private http: HttpClient) {}
 
-  getTransaction(): any {
-    return this.http.get('./assets/transaction.json').pipe(
-      map((data) => {
+  getTransaction(): Observable<TransactionDetails[]> {
+    return this.http.get("./assets/transaction.json").pipe(
+      map((data: TransactionDetails[]) => {
         return data;
       })
     );

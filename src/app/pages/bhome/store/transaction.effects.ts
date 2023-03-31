@@ -1,24 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, catchError, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { of } from "rxjs";
+import { switchMap, map, catchError } from "rxjs/operators";
 
-import { TransactionService } from '../service/transaction.service';
-import { TransactionActions } from './transaction.actions';
-import { Action } from '@ngrx/store';
+import { TransactionService } from "../service/transaction.service";
+import { TransactionActions } from "./transaction.actions";
 
 @Injectable()
 export class TransactionEffects {
-  getTransactionList$ = createEffect((): any =>
+  getTransactionList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TransactionActions.getTransactionList),
       switchMap(() =>
-        this.transactionService.getTransaction().subscribe(
-          (data: any) => {
-            TransactionActions.getTransactionListSuccess({ data });
-          },
-          catchError((err) =>
-            of(TransactionActions.getTransactionListFail(err))
+        this.transactionService.getTransaction().pipe(
+          map(
+            (data) => TransactionActions.getTransactionListSuccess({ data }),
+            catchError((err) =>
+              of(TransactionActions.getTransactionListFail(err))
+            )
           )
         )
       )

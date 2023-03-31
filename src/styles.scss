@@ -4,7 +4,11 @@
 @import "tailwindcss/utilities";
 
 
-app-filter input {
-    border: 1px solid;
-    margin: 0 1rem;
+
+::-webkit-scrollbar {
+    display: none;
 }
+input::placeholder {
+    font-style: italic;
+  }
+  

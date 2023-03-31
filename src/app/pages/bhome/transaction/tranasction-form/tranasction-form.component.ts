@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Store } from "@ngrx/store";
 import { balanceValidator } from "src/app/shared/shared/validators/amount.validator";
 import { TransactionActions } from "./../../store/transaction.actions";
-
+import { TEXT } from "src/app/shared/shared/utils/constants/message";
 @Component({
   selector: "app-tranasction-form",
   templateUrl: "./tranasction-form.component.html",
@@ -14,17 +14,10 @@ export class TranasctionFormComponent implements OnInit {
   formErrors = {};
   accountBalance = 5824.76;
   reviewTransaction = false;
+  readonly TEXT = TEXT;
   constructor(private store$: Store) {}
   ngOnInit() {
     this.transactionForm = new FormGroup({
-      fromAccount: new FormControl(
-        {
-          value: `My Personal Account: ${this.accountBalance.toFixed(2)}`,
-          disabled: true,
-        },
-
-        [Validators.required]
-      ),
       toAccount: new FormControl("", [Validators.required]),
       amount: new FormControl("", [
         Validators.required,
@@ -33,58 +26,63 @@ export class TranasctionFormComponent implements OnInit {
     });
   }
 
-  submitForm(event) {
+  submitForm():void {
     this.transactionForm.markAllAsTouched();
-
     if (this.transactionForm?.valid) {
       this.reviewTransaction = true;
     }
   }
 
-  // This can be moved to directive
-  onlyNumber(e) {
-    return (
-      e.charCode === 0 ||
-      (e.charCode >= 48 && e.charCode <= 57) ||
-      (e.charCode == 46 && e.target.value.indexOf(".") < 0)
-    );
-  }
 
-  modalclose() {
+  modalclose(): void {
     this.reviewTransaction = false;
   }
 
-  proceedTransaction() {
+  proceedTransaction(): void {
     this.reviewTransaction = false;
     this.accountBalance =
       this.accountBalance -
       Number(this.transactionForm.controls["amount"].value);
-    this.transactionForm.controls["fromAccount"].setValue(
-      `My Personal Account: ${this.accountBalance}`
-    );
+
     this.store$.dispatch(
-      TransactionActions.updateTransaction({
-        data: {
-          id: Math.random(),
-          merchant: {
-            name: this.transactionForm.controls["toAccount"].value,
-            accountNumber: "SI64397745065188826",
-          },
-          dates: { valueDate: new Date().getTime() },
-          categoryCode: "#1180aa",
-          transaction: {
-            type: "Transaction",
-            creditDebitIndicator: "DBIT",
-            amountCurrency: {
-              currencyCode: "EUR",
-              amount: `${this.transactionForm.controls[
-                "amount"
-              ].value}`,
-            },
+      TransactionActions.updateTransaction(this.updateTransactionPayload())
+    );
+    this.resetFormValues();
+  }
+
+  updateTransactionPayload() {
+    return {
+      data: {
+        id: Math.random().toString(),
+        merchant: {
+          name: this.transactionForm.controls["toAccount"].value,
+          accountNumber: "SI64397745065188826",
+        },
+        dates: { valueDate: new Date().getTime().toString() },
+        categoryCode: this.randomColor(),
+        transaction: {
+          type: "Transaction",
+          creditDebitIndicator: "DBIT",
+          amountCurrency: {
+            currencyCode: "EUR",
+            amount: `${this.transactionForm.controls["amount"].value}`,
           },
         },
-      })
+      },
+    };
+  }
+
+  randomColor(): string {
+    return (
+      "#" +
+      Math.floor(Math.random() * 16777215)
+        .toString(16)
+        .padStart(6, "0")
+        .toUpperCase()
     );
+  }
+
+  resetFormValues(): void {
     this.transactionForm.controls["toAccount"].setValue("");
     this.transactionForm.controls["amount"].setValue("");
     this.transactionForm.controls["toAccount"].markAsUntouched();

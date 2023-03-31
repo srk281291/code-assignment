@@ -1,23 +1,32 @@
-<div class="transaction-list-container">
-    <div class="filter-list">
-        <app-filter class="border w-full h-4" (inputChange)="filterText($event)"></app-filter>
+<div class="m-6 transaction-list-container h-full overflow-y-auto">
+    <div
+        class="filter-list flex w-2/5 box-border border-l-0 rounded-tl-none rounded-bl-none box-border h-8 border text-sm rounded-md">
+        <div class="icon-input flex items-center">
+            <span
+                class="text-sm icon-sec bg-disabled-gray flex h-8 items-center border border-gray-300 border-r-0 rounded-l-md px-2 box-border">
+                <i class="gg-search text-sm"></i>
+            </span>
+            <app-filter class="pl-2 w-full h-full border-gray-300" (inputChange)="filterText($event)"></app-filter>
+        </div>
     </div>
-    <div class="transaction-list">
-        <div class="no-result" *ngIf="!(transactionData$ | async | filter:filterTextVal)?.length">No Transaction</div>
-        <ng-container *ngFor="let data of transactionData$ | async | filter:filterTextVal | sortBy">
-
-            <app-transaction-item class="border-b my-1 p-2 flex align-center w-full">
-                <span slot="transactionColour" [style.background-color]="data?.categoryCode"
-                    class="h-16 w-2 flex"></span>
-                <span slot="transactionDate" class="w-20">{{data?.dates?.valueDate | date: 'MMM d'}}</span>
-                <div slot="transactionMerchantName">{{data?.merchant?.name}}</div>
-                <span slot="transactionType">{{data?.transaction?.type}}</span>
-                <div slot="transactionAmount" class="amount whitespace-nowrap"
-                    [ngClass]="data?.transaction?.creditDebitIndicator == 'DBIT' ? 'red' : 'green' ">
-                    {{data?.transaction?.creditDebitIndicator == 'DBIT' ? '-':
-                    ''}}{{data?.transaction?.amountCurrency?.amount | currency:
-                    data?.transaction?.amountCurrency?.currencyCode}}</div>
-            </app-transaction-item>
+    <div class="transaction-list mt-4">
+        <div class="no-result flex justify-center p-6" *ngIf="!(transactionData$ | async | filter:filterTextVal)?.length">No Transaction Details Found</div>
+        <ng-container *ngFor="let data of transactionData$ | async | filter:filterTextVal | sortBy ; trackBy: trackBy">
+            <ng-container *ngIf="data">
+                <app-transaction-item class="border-b my-1 py-2 flex align-center w-full">
+                    <span data-test-hook="transactionColour" [style.background-color]="data?.categoryCode"
+                        class="h-16 w-2 flex"></span>
+                    <span data-test-hook="transactionDate" class="w-20 font-bold">{{data?.dates?.valueDate | date: 'MMM
+                        d'}}</span>
+                    <div data-test-hook="transactionMerchantName" class="font-bold">{{data?.merchant?.name}}</div>
+                    <span data-test-hook="transactionType">{{data?.transaction?.type}}</span>
+                    <div data-test-hook="transactionAmount" class="amount whitespace-nowrap"
+                        [ngClass]="data?.transaction?.creditDebitIndicator === 'DBIT' ? 'red' : 'green' ">
+                        {{data?.transaction?.creditDebitIndicator === 'DBIT' ? '-':
+                        ''}}{{data?.transaction?.amountCurrency?.amount | currency:
+                        data?.transaction?.amountCurrency?.currencyCode}}</div>
+                </app-transaction-item>
+            </ng-container>
         </ng-container>
     </div>
 </div>

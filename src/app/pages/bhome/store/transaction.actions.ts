@@ -7,18 +7,18 @@ const TRANSACTION_DATA_SUCCESS =
   '[Transaction] Get transaction details Success';
 const TRANSACTION_DATA_FAIL = '[Transaction] Get transaction details Fail';
 
-const getTransactionList = createAction(TRANSACTION_DATA);
+export const getTransactionList = createAction(TRANSACTION_DATA);
 const getTransactionListSuccess = createAction(
   TRANSACTION_DATA_SUCCESS,
   props<{ data: Array<TransactionDetails> }>()
 );
 const updateTransaction = createAction(
   UPDATE_TRANSACTION,
-  props<{ data: any }>()
+  props<{ data: TransactionDetails }>()
 );
 const getTransactionListFail = createAction(
   TRANSACTION_DATA_FAIL,
-  props<{ error: any }>()
+  props<{ error: string }>()
 );
 
 export const TransactionActions = {

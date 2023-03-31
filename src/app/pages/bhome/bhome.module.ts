@@ -6,7 +6,7 @@ import { TransactionComponent } from './transaction/transaction.component';
 import { TranasctionFormComponent } from './transaction/tranasction-form/tranasction-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TransactionListComponent } from './transaction/transaction-list/transaction-list.component';
-import { transactionReducer } from './store/transaction.reducer';
+import { featureKey, transactionReducer } from './store/transaction.reducer';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TransactionEffects } from './store/transaction.effects';
@@ -21,7 +21,7 @@ import { TransactionEffects } from './store/transaction.effects';
     TransactionRoutingModule,
     SharedModule,
     ReactiveFormsModule,
-    StoreModule.forFeature('transaction', transactionReducer),
+    StoreModule.forFeature(featureKey, transactionReducer),
     EffectsModule.forFeature(TransactionEffects),
   ],
 })

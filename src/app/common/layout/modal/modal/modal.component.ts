@@ -10,6 +10,8 @@ export class ModalComponent {
   @Output() modalsubmit = new EventEmitter();
   @Input() recipientName = "";
   @Input() amountValue = "";
+  @Input() modalDesc = "";
+  @Input() modalTitle = "Review";
 
   modalcloseEmit() {
     this.modalclose.emit();

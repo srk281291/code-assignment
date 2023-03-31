@@ -1,50 +1,59 @@
 <form [formGroup]="transactionForm" class="form" autocomplete="off" novalidate>
     <div class="flex flex-wrap py-6 mx-6">
         <div class="w-full mb-2">
-            <label for="from_account" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From
-                Account</label>
-            <input formControlName="fromAccount" type="text" id="from_account"
-                class="disabled:bg-slate-50 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full mb-4 p-2.5 "
-                required>
+            <label for="from_account" class="block mb-2 text-sm font-medium dark:text-white">From Account</label>
 
+            <div
+                class="flex items-center user-account h-8 bg-disabled-gray border border-gray-300 text-sm rounded-md block w-full p-2.5">
+                My Personal Account:
+                <b class="flex items-center ml-4"><i class="gg-euro text-sm"></i>{{ accountBalance.toFixed(2) }}</b>
+            </div>
         </div>
         <div class="w-full mb-2">
-            <label for="to_account" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To
-                Account</label>
+            <label for="to_account" class="block mb-2 text-sm font-medium dark:text-white">To Account</label>
             <input formControlName="toAccount" type="text" id="to_account" [placeholder]="'type an account name'"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full mb-4 p-2.5 "
-                required>
-            <span
+                class="focus:outline-none italic::placeholder border border-gray-300 text-sm rounded-md block w-full p-2.5 h-8"
+                [ngClass]="{'border-red-500': transactionForm.controls['toAccount'].touched && transactionForm.controls['toAccount']?.errors?.['required']}"
+                required />
+            <span class="text-red-400 text-sm"
                 *ngIf="transactionForm.controls['toAccount'].touched && transactionForm.controls['toAccount']?.errors?.['required']">
-                This field is required
+                {{ TEXT.required_error }}
             </span>
         </div>
         <div class="w-full mb-2">
-            <label for="first_account"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
-            <input (keypress)="onlyNumber($event)" formControlName="amount" type="text" id="first_account"
-                [placeholder]="'specify the amount'"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full mb-4 p-2.5 "
-                required>
-            <span
+            <label for="first_account" class="block mb-2 text-sm font-medium dark:text-white">Amount</label>
+
+            <div class="icon-input flex items-center">
+                <span
+               
+                    class="focus:outline-none text-sm icon-sec bg-disabled-gray flex h-8 items-center border border-gray-300 border-r-0 rounded-l-md px-2 box-border">
+                    <i class="gg-euro text-sm"></i>
+                </span>
+                <input numberOnly formControlName="amount" type="text" id="first_account"
+                    [placeholder]="'specify the amount'" [ngClass]="{'border-red-500 border-l': transactionForm.controls['amount'].touched && (transactionForm.controls['amount']?.errors?.['required']
+            || transactionForm.controls['amount']?.errors?.['lowbalance'])}"
+                    class="focus:outline-none border-l-0 rounded-tl-none rounded-bl-none box-border h-8 italic::placeholder border border-gray-300 text-sm rounded-md block w-full p-2.5"
+                    required />
+
+            </div>
+
+            <span class="text-red-400 text-sm"
                 *ngIf="transactionForm.controls['amount'].touched && transactionForm.controls['amount']?.errors?.['required']">
-                This field is required
+                {{ TEXT.required_error }}
             </span>
-            <span
+            <span class="text-red-400 text-sm"
                 *ngIf="transactionForm.controls['amount'].touched && transactionForm.controls['amount']?.errors?.['lowbalance']">
-                There is not enough balance
+                {{TEXT.lowbalance}
             </span>
         </div>
-        <div class="w-full mb-4 flex justify-end">
-            <app-submit-button (submitForm)="submitForm($event)"
+        <div class="mt-4 w-full flex justify-end">
+            <app-submit-button (submitForm)="submitForm()"
                 class="bg-orange-500 hover:bg-orange-700 text-white py-2 px-4 rounded"></app-submit-button>
         </div>
     </div>
-
 </form>
 
-
-
-<app-modal *ngIf="reviewTransaction" [amountValue]="transactionForm.controls['amount'].value | currency:'EUR'"
+<app-modal *ngIf="reviewTransaction" [modalDesc]="'Are you ready to send out this transfer?'"
+    [modalTitle]="'<b>Review</b> Transfer'" [amountValue]="transactionForm.controls['amount'].value | currency : 'EUR'"
     [recipientName]="transactionForm.controls['toAccount'].value" (modalclose)="modalclose()"
     (modalsubmit)="proceedTransaction()"></app-modal>

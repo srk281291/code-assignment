@@ -5,7 +5,7 @@ import { TransactionDetails } from './../../../pages/bhome/model/transaction.mod
   name: 'filter',
 })
 export class FilterPipe implements PipeTransform {
-  transform(data: any, keyword: string): TransactionDetails[] {
+  transform(data, keyword: string): TransactionDetails[] {
     if (!keyword || keyword === '') {
      return data;
      

@@ -1,10 +1,9 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { TransactionState } from "./transaction.reducer";
+import { TransactionState, featureKey } from "./transaction.reducer";
 
-
-export const featureSelector =
-  createFeatureSelector<TransactionState>('transaction');
+export const transactionState =
+  createFeatureSelector<TransactionState>(featureKey);
 export const transactionSelector = createSelector(
-  featureSelector,
-  (state) => state.transactionHistory
+  transactionState,
+  (state: TransactionState) => state.transactionHistory
 );

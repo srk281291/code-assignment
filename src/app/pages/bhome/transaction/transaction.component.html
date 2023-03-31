@@ -1,29 +1,31 @@
-<div id="bhome-container" class="box-border flex flex-col h-screen overflow-hidden">
-    <app-header ></app-header>
-    <main class="flex-1 overflow-hidden">
+<div id="bhome-container" class="box-border flex flex-col lg:h-screen lg:overflow-hidden">
+    <app-header></app-header>
+    <main class="flex-1 flex flex-col lg:overflow-hidden">
         <div id="transaction-content"
-            class="py-8 center flex gap-6 justify-center h-full  bg-fixed backdrop-blur-2xl bg-left-top bg-no-repeat bg-cover bg-bhome-pattern">
-            <div class="transaction-form max-w-xs min-w-xs">
-                <app-card class="rounded-sm">
-                    <section class="head h-8">
-                        <span><b>Make</b> Transfer</span>
-                    </section>
-                    <section class="card-content">
-                        <app-tranasction-form></app-tranasction-form>
-                    </section>
-                </app-card>
+            class="relative py-8 center flex justify-center h-full bg-fixed bg-left-top bg-no-repeat bg-cover bg-bhome-pattern">
+            <div
+                class="absolute flex w-full h-full left-0 top-0 z-1 flex-col justify-center items-center backdrop-blur-sm">
             </div>
-            <div class="transaction-list overflow-y-scroll max-w-md w-full h-full">
-                <app-card class="rounded-sm">
-                    <section class="head h-8">
-                        <span>Transaction <b>List</b></span>
-                    </section>
-                    <section class="card-content">
-                      <app-transaction-list></app-transaction-list>
-                    </section>
-                </app-card>
+            <div class="page-content gap-12 relative z-2 flex flex-wrap md:flex-no-wrap justify-center overflow-hidden">
+                <div class="transaction-form lg:h-full lg:w-[350px] w-4/5">
+                    <app-card >
+                        <app-icon-header [title]="'<b>Make</b> Transfer'" [icon]="'gg-credit-card'"></app-icon-header>
+                        <section class="card-content bg-white">
+                            <app-tranasction-form></app-tranasction-form>
+                        </section>
+                    </app-card>
+                </div>
+                <div class="transaction-lis lg:h-full w-4/5 lg:w-[700px]">
+                    <app-card [isFullHeight]="true">
+                      
+                        <app-icon-header [title]="'Transaction <b>List</b>'" [icon]="'gg-list'"></app-icon-header>
+                        <section style="height: calc(100% - 60px);" class="card-content bg-white overflow-y-auto">
+                            <app-transaction-list></app-transaction-list>
+                        </section>
+                    </app-card>
+                </div>
             </div>
         </div>
     </main>
-    <app-footer class="py-2"></app-footer>
+    <app-footer class="py-2 overflow-hidden"></app-footer>
 </div>
