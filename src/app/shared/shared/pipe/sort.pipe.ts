@@ -6,7 +6,7 @@ import { TransactionDetails } from "./../../../pages/bhome/model/transaction.mod
 })
 export class SortByPipe implements PipeTransform {
   transform(data: TransactionDetails[]): TransactionDetails[] {
-    if (!data?.length) {
+    if (!data || !data.length) {
       return data;
     }
     // This can be dynamic like accepting type,key params. and switch case can be used for return

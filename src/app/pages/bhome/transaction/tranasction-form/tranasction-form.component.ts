@@ -4,6 +4,7 @@ import { Store } from "@ngrx/store";
 import { balanceValidator } from "src/app/shared/shared/validators/amount.validator";
 import { TransactionActions } from "./../../store/transaction.actions";
 import { TEXT } from "src/app/shared/shared/utils/constants/message";
+import { TransactionDetails } from "../../model/transaction.model";
 @Component({
   selector: "app-tranasction-form",
   templateUrl: "./tranasction-form.component.html",
@@ -16,7 +17,7 @@ export class TranasctionFormComponent implements OnInit {
   reviewTransaction = false;
   readonly TEXT = TEXT;
   constructor(private store$: Store) {}
-  ngOnInit() {
+  ngOnInit(): void {
     this.transactionForm = new FormGroup({
       toAccount: new FormControl("", [Validators.required]),
       amount: new FormControl("", [
@@ -26,13 +27,12 @@ export class TranasctionFormComponent implements OnInit {
     });
   }
 
-  submitForm():void {
+  submitForm(): void {
     this.transactionForm.markAllAsTouched();
     if (this.transactionForm?.valid) {
       this.reviewTransaction = true;
     }
   }
-
 
   modalclose(): void {
     this.reviewTransaction = false;
@@ -50,7 +50,7 @@ export class TranasctionFormComponent implements OnInit {
     this.resetFormValues();
   }
 
-  updateTransactionPayload() {
+  updateTransactionPayload(): { data: TransactionDetails } {
     return {
       data: {
         id: Math.random().toString(),
@@ -58,7 +58,7 @@ export class TranasctionFormComponent implements OnInit {
           name: this.transactionForm.controls["toAccount"].value,
           accountNumber: "SI64397745065188826",
         },
-        dates: { valueDate: new Date().getTime()},
+        dates: { valueDate: new Date().getTime() },
         categoryCode: this.randomColor(),
         transaction: {
           type: "Transaction",
