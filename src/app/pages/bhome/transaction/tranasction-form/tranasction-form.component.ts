@@ -58,7 +58,7 @@ export class TranasctionFormComponent implements OnInit {
           name: this.transactionForm.controls["toAccount"].value,
           accountNumber: "SI64397745065188826",
         },
-        dates: { valueDate: new Date().getTime().toString() },
+        dates: { valueDate: new Date().getTime()},
         categoryCode: this.randomColor(),
         transaction: {
           type: "Transaction",
