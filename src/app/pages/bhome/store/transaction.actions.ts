@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { TransactionDetails } from '../model/transaction.model';
 
-const UPDATE_TRANSACTION = '[Transaction] Get transaction details';
+const UPDATE_TRANSACTION = '[Transaction] update transaction details';
 const TRANSACTION_DATA = '[Transaction] Get transaction details';
 const TRANSACTION_DATA_SUCCESS =
   '[Transaction] Get transaction details Success';
